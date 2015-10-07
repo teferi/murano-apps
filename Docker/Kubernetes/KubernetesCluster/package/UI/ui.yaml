@@ -38,6 +38,7 @@ Templates:
       keyname: $.instanceConfiguration.keyPair
       availabilityZone: $.instanceConfiguration.availabilityZone
     exposeCAdvisor: $.appConfiguration.exposeCAdvisor
+    httpProxy: $.appConfiguration.httpProxy
 
 
   gatewayNode:
@@ -123,6 +124,13 @@ Forms:
           label: Expose cAdvisor UI
           description: >-
             Opens external access to cAdvisor interface
+        - name: httpProxy
+          type: string
+          initial: ''
+          required: false
+          label: HTTP proxy
+          description: >-
+            HTTP proxy
         - name: gatewayCount
           type: integer
           label: Initial/current number of gateway nodes

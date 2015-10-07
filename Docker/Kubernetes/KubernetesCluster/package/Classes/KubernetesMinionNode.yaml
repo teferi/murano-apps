@@ -24,6 +24,9 @@ Properties:
   exposeCAdvisor:
     Contract: $.bool().notNull()
     Default: false
+  httpProxy:
+    Contract: $.string().notNull()
+    Default: ''
 
 
 Methods:
@@ -84,7 +87,8 @@ Methods:
                 name => $.instance.name,
                 ip => $.getIp(),
                 masterIp => $._cluster.masterNode.getIp(),
-                dockerRegistry => $._cluster.dockerRegistry
+                dockerRegistry => $._cluster.dockerRegistry,
+                httpProxy => $.httpProxy
               ))
           - $.instance.agent.call($template, $resources)
           - $._registerNode()
