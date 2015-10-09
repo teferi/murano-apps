@@ -24,6 +24,7 @@ function include(){
     fi
 }
 include "common.sh"
+set_proxy "$1"
 
 cd /root
 wget https://s3.amazonaws.com/go-cli/releases/v6.1.2/cf-cli_amd64.deb -O cf-cli_amd64.deb

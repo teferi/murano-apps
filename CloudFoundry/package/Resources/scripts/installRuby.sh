@@ -24,6 +24,7 @@ function include(){
     fi
 }
 include "common.sh"
+set_proxy "$1"
 
 apt-get update
 apt-get install -y curl git wget

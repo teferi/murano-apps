@@ -15,10 +15,10 @@ Version: 1.0.0
 Name: Install Ruby
 
 Parameters:
-  appName: $appName
+  httpProxy: $httpProxy
 
 Body: |
-  return deploy(args.appName).stdout
+  return deploy("{0}".format(args.httpProxy)).stdout
 
 Scripts:
   deploy:

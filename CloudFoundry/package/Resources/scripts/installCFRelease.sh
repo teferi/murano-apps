@@ -25,6 +25,13 @@ function include(){
 }
 include "common.sh"
 . ~/.profile
+set_proxy "$1"
+
+if [ ! -z "$1" ]; then
+    echo "export http_proxy=$1" >> /etc/profile
+    echo "export HTTP_PROXY=$1" >> /etc/profile
+    echo "export HTTPS_PROXY=$1" >> /etc/profile
+fi
 
 if [ ! -e /tmp/wagrant-reboot ] ; then
   cd /root/cf_nise_installer

@@ -230,3 +230,11 @@ function retry()
             }
     done
 }
+function set_proxy()
+{
+    if [ ! -z "$1" ]; then
+        export http_proxy=$1
+        export HTTP_PROXY=$1
+        export HTTPS_PROXY=$1
+    fi
+}

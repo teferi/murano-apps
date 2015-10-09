@@ -24,6 +24,7 @@ function include(){
     fi
 }
 include "common.sh"
+set_proxy "$1"
 
 cd /root/cf_nise_installer
 ./scripts/clone_nise_bosh.sh

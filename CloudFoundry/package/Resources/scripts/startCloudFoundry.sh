@@ -25,6 +25,7 @@ function include(){
 }
 include "common.sh"
 . ~/.profile
+set_proxy "$1"
 
 cd /root/cf_nise_installer
 ./scripts/start.sh | tee start.log

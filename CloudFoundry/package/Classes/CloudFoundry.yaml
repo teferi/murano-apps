@@ -24,6 +24,9 @@ Properties:
 
   instance:
     Contract: $.class(res:Instance).notNull()
+  httpProxy:
+    Contract: $.string().notNull()
+    Default: ''
 
 Methods:
   initialize:
@@ -68,33 +71,45 @@ Methods:
           #All steps below actually follow the process in ./scripts/install.sh
           # Just add more interactivity to provide status
           # Install Ruby part
-          - $template: $resources.yaml('InstallRuby.template')
-          - $._environment.reporter.report($this, '[1/6] Installing Ruby...')
+          - $template: $resources.yaml('InstallRuby.template').bind(dict(
+                httpProxy => $.httpProxy
+              ))
+          - $._environment.reporter.report($this, '[1/6]Installing Ruby...')
           - $.instance.agent.call($template, $resources, 3600)
 
           #Clone base repos
-          - $template: $resources.yaml('CloneRepos.template')
+          - $template: $resources.yaml('CloneRepos.template').bind(dict(
+                httpProxy => $.httpProxy
+              ))
           - $._environment.reporter.report($this, '[2/6]Cloning git repositories for BOSH and cf-release...')
           - $.instance.agent.call($template, $resources, 3600)
 
           #Install Environment
-          - $template: $resources.yaml('InstallEnvironment.template')
-          - $._environment.reporter.report($this, '[3/6]Install Environment...')
+          - $template: $resources.yaml('InstallEnvironment.template').bind(dict(
+                httpProxy => $.httpProxy
+              ))
+          - $._environment.reporter.report($this, '[3/6]Installing Environment...')
           - $.instance.agent.call($template, $resources, 3600)
 
           #Install CF release
-          - $template: $resources.yaml('InstallCFRelease.template')
+          - $template: $resources.yaml('InstallCFRelease.template').bind(dict(
+                httpProxy => $.httpProxy
+              ))
           - $._environment.reporter.report($this, '[4/6]Installing cf-release...')
           - $.instance.agent.call($template, $resources, 7200)
 
           #Install CF CLI
-          - $template: $resources.yaml('InstallCFcli.template')
+          - $template: $resources.yaml('InstallCFcli.template').bind(dict(
+                httpProxy => $.httpProxy
+              ))
           - $._environment.reporter.report($this, '[5/6]Installing CF CLI...')
           - $.instance.agent.call($template, $resources, 600)
 
-          - $template: $resources.yaml('StartCloudFoundry.template')
-          - $._environment.reporter.report($this, '[6/6]Start CloudFoundry services...')
+          - $template: $resources.yaml('StartCloudFoundry.template').bind(dict(
+                httpProxy => $.httpProxy
+              ))
+          - $._environment.reporter.report($this, '[6/6]Starting CloudFoundry services...')
           - $result: $.instance.agent.call($template, $resources, 3600)
-          - $._environment.reporter.report($this, 'CloudFoundry is started')
+          - $._environment.reporter.report($this, 'CloudFoundry launched')
           - $._environment.reporter.report($this, $result)
           - $.setAttr(deployed, True)

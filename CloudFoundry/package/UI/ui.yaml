@@ -34,6 +34,7 @@ Application:
       useEnvironmentNetwork: $.instanceConfiguration.network[0]=null
       useFlatNetwork: false
       customNetworks: switch($.instanceConfiguration.network[0], $=null=>list(), $!=null=>$customJoinNet)
+  httpProxy: $.appConfiguration.httpProxy
 
 Forms:
   - appConfiguration:
@@ -49,6 +50,13 @@ Forms:
           description: >-
              Select to true to assign floating IP automatically
           initial: false
+          required: false
+        - name: httpProxy
+          type: string
+          label: HTTP Proxy
+          description: >-
+             HTTP Proxy
+          initial: ''
           required: false
   - instanceConfiguration:
       fields:
