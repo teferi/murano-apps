@@ -26,6 +26,7 @@ Application:
     keyname: $.instanceConfiguration.keyPair
     assignFloatingIp: $.appConfiguration.assignFloatingIP
     availabilityZone: $.instanceConfiguration.availabilityZone
+  httpProxy: $.appConfiguration.httpProxy
 
 Forms:
   - appConfiguration:
@@ -55,6 +56,13 @@ Forms:
           description: >-
             URL of docker repository mirror to use. Leave empty for Docker default
           required: false
+        - name: httpProxy
+          type: string
+          initial: ''
+          required: false
+          label: HTTP proxy
+          description: >-
+            HTTP proxy
 
   - instanceConfiguration:
       fields:

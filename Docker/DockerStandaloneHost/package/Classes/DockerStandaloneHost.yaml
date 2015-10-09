@@ -18,10 +18,10 @@ Namespaces:
 
 Name: DockerStandaloneHost
 
-Extends: 
+Extends:
   - DockerContainerHost
 
-Properties:  
+Properties:
   name:
     Contract: $.string().notNull()
 
@@ -29,6 +29,9 @@ Properties:
     Contract: $.class(res:LinuxMuranoInstance).notNull()
 
   dockerRegistry:
+    Contract: $.string()
+
+  httpProxy:
     Contract: $.string()
 
   applicationEndpoints:
@@ -53,8 +56,8 @@ Properties:
 Methods:
   initialize:
     Body:
-      - $._environment: $.find(std:Environment).require()  
-  
+      - $._environment: $.find(std:Environment).require()
+
 
   deploy:
     Body:
@@ -70,6 +73,13 @@ Methods:
               - $._environment.reporter.report($this, 'Configuring Docker registry')
               - $template: $resources.yaml('SetupDockerRegistry.template').bind(dict(
                     dockerRegistry => $.dockerRegistry
+                  ))
+              - $.instance.agent.call($template, $resources)
+          - If: $.httpProxy != null and $.httpProxy != ''
+            Then:
+              - $._environment.reporter.report($this, 'Configuring Docker HTTP Proxy')
+              - $template: $resources.yaml('SetupHTTPProxy.template').bind(dict(
+                    httpProxy => $.httpProxy
                   ))
               - $.instance.agent.call($template, $resources)
           - $._environment.reporter.report($this, 'Docker Server is up and running')
